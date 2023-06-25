@@ -1,16 +1,26 @@
 @import "../app.component.css";
 
-/* .bodywidth90{
-    width: 90vw;
-} */
-
-.aligncenter{
+.aligncenter {
     align-items: center;
 }
 
 .centerContent {
-  /* border: 5px solid; */
-  margin: auto;
-  width: 90%;
-  padding: 10px;
+    /* border: 5px solid; */
+    margin: auto;
+    width: 90%;
+    /* padding: 10px; */
+}
+
+.center-current-content {
+    margin: auto;
+    padding: 10px;
+}
+
+.register-portion-vertically-middle {
+    padding-top: 20%;
+    padding-bottom: 20%;
+}
+
+.mat-control-look1{
+    min-height: 50px;
 }
