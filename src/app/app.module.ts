@@ -6,13 +6,17 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialuiModule } from './materialui.module';
 
-import { HomeComponent } from './home/home.component';
-import { HeaderComponent } from './header/header.component';
-import { FooterComponent } from './footer/footer.component';
-import { RegisterComponent } from './register/register.component';
+import { HomeComponent } from '../app/components/home/home.component';
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { RegisterComponent } from '../app/components/register/register.component';
+
+import { ServiceUrl } from './service-url';
+import { UserService } from './service/http-services/user.service';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +24,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     HomeComponent,
     HeaderComponent,
     FooterComponent,
-    RegisterComponent
+    RegisterComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +36,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+    ServiceUrl,
+    UserService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

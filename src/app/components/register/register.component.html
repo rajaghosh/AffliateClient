@@ -40,22 +40,24 @@
                         <mat-form-field appearance="fill" class="pt-3">
                             <mat-label>Password<span style="color: red;"></span></mat-label><br />
                             <input matInput maxlength="15" inputmode="password" placeholder="Type Password"
-                                formControlName="Password" #nameInput>
+                                [type]="hide ? 'password' : 'text'" formControlName="Password" #nameInput>
+                            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' :
+                                'visibility'}}</mat-icon>
 
                             <mat-error *ngIf="checkError('Password', 'required')">Password is
                                 required</mat-error>
                             <mat-error *ngIf="checkError('Password', 'maxlength')">Password must
                                 not exceed 15 characters</mat-error>
+
                         </mat-form-field>
 
                         <div class="row pt-3">
                             <div class="col-6">
                                 <button type="button" class="btn btn-warning" type="submit" style="width: 100%;"
-                                    (click)="onSubmit()">Submit</button>
+                                    (click)="onRegistrationSubmit()">Submit</button>
                             </div>
                             <div class="col-6">
-                                <button type="reset" class="btn btn-secondary"
-                                    style="width: 100%;">Clear</button>
+                                <button type="reset" class="btn btn-secondary" style="width: 100%;">Clear</button>
                             </div>
                         </div>
 
@@ -67,9 +69,9 @@
 
         </div>
 
-        
-        
-        <div class="col-6" >
+
+
+        <div class="col-6">
 
             <form [formGroup]="loginForm">
 
@@ -106,14 +108,13 @@
                         <div class="row pt-3">
                             <div class="col-6">
                                 <button type="button" class="btn btn-warning" type="submit" style="width: 100%;"
-                                    (click)="onSubmit()">Submit</button>
+                                    (click)="onRegistrationSubmit()">Submit</button>
                             </div>
                             <div class="col-6">
-                                <button type="reset" class="btn btn-secondary"
-                                    style="width: 100%;">Clear</button>
+                                <button type="reset" class="btn btn-secondary" style="width: 100%;">Clear</button>
                             </div>
                         </div>
-                        
+
 
                     </div>
                 </div>
