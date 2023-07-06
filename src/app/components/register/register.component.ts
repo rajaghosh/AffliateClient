@@ -89,8 +89,6 @@ export class RegisterComponent implements OnInit {
         }
       });
 
-      // this.registationStatus = false;
-
       debugger;
 
       this.userService.PostRegistrationDetailsAsync(registrationDetails).subscribe(s => {
@@ -219,6 +217,7 @@ export class RegisterComponent implements OnInit {
         if (res != '' && (error == null || error == undefined)) {
 
           //Go To Dashboard
+          this.ResetSetLoggedInUser(loginDetails.Email);
           this.ProceedToLoginDashboard();
 
         }
@@ -270,12 +269,17 @@ export class RegisterComponent implements OnInit {
     return this.loginForm.controls[controlName].hasError(errorName);
   };
 
-  ProceedToHomePage() {
-    window.location.href = this.router['location']._platformLocation.location.origin;
-  }
+  // ProceedToHomePage() {
+  //   window.location.href = this.router['location']._platformLocation.location.origin;
+  // }
 
   ProceedToLoginDashboard() {
     window.location.href = '/dashboard';
+  }
+
+  ResetSetLoggedInUser(email: string){
+    localStorage.removeItem("loggedUser");
+    localStorage.setItem("loggedUser", email);
   }
 
 }

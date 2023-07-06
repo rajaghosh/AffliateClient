@@ -7,12 +7,14 @@ import { Injectable } from "@angular/core";
 // })
 @Injectable()
 export class ServiceUrl {
-    userService?: string;
-    // subscriptionService?: string;
-    // paymentService?: string;
+  userService?: string;
+  productService?: string;
+  // subscriptionService?: string;
+  // paymentService?: string;
 
   constructor() {
     this.userService = environment.apiUrlMain + "User/";
+    this.productService = environment.apiUrlMain + "Product/";
     // this.subscriptionService = environment.apiUrlMain + "Subscription/";
     // this.paymentService = environment.apiUrlMain + "Payment/";
   }
