@@ -9,22 +9,67 @@
             <div class="row border rounded-3">
                 <div class="col-2" style="border:1px solid #333;">Product Link</div>
                 <div class="col-4" style="border:1px solid #333;">Product Name</div>
-                <div class="col-4" style="border:1px solid #333;">Product Image</div>
-                <div class="col-2" style="border:1px solid #333;">Update</div>
+                <div class="col-2" style="border:1px solid #333;">Product Image</div>
+                <div class="col-4" style="border:1px solid #333;">Update</div>
             </div>
             <div *ngFor="let product of productDetails" class="row border rounded-3">
-                <!-- <p>{{productDetails[0].id}}</p> -->
-                <!-- <div class="col-2" style="border:1px solid #333;">1</div> -->
+
+
+
                 <div class="col-2" style="border:1px solid #333;">
                     <a href="{{marketPlaceLinkEnv}}{{product.id}}">Visit Product</a>
                 </div>
                 <div class="col-4" style="border:1px solid #333;">{{product.medicineName}}</div>
-                <div class="col-4" style="border:1px solid #333;">
+                <div class="col-2" style="border:1px solid #333;">
                     <img src="{{marketPlaceImgEnv}}{{product.imagePath}}" height="100px" width="100px">
                 </div>
+
                 <div class="col-4" style="border:1px solid #333;">
-                    <img src="{{marketPlaceImgEnv}}{{product.imagePath}}" height="100px" width="100px">
+
+                    <form [formGroup]="percentUpdateForm" id="form_{{product.id}}">
+
+                        <div class="row pt-3">
+                            <div class="col-6">
+
+                                <!-- <mat-form-field appearance="fill" class="pt-3" [hidden]="true">
+                                    <mat-label>Id<span style="color: red;"></span></mat-label><br />
+                                    <input matInput maxlength="1000000" inputmode="text" placeholder=""
+                                        value="{{product.id}}" formControlName="ProdId" #nameInput>
+                                </mat-form-field> -->
+
+                                <!-- <mat-form-field>
+                                    <mat-label>Product Id</mat-label>
+                                    <input matInput value="{{product.id}}" formControlName="ProdId">
+                                </mat-form-field> -->
+
+
+                                <mat-form-field appearance="fill" class="pt-3">
+                                    <mat-label>Discount %<span style="color: red;"></span></mat-label><br />
+                                    <input matInput maxlength="6" inputmode="text" placeholder="Discount %"
+                                        formControlName="DiscountPercent" #nameInput>
+
+                                    <mat-error *ngIf="checkError('DiscountPercent', 'required')">Password is
+                                        required</mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <!-- <div class="row pt-3"> -->
+                            <div class="col-6">
+                                <button type="button" class="btn btn-warning" type="submit" style="width: 100%;"
+                                    (click)="onDiscountSubmit(product.id)">Submit</button>
+                            </div>
+                            <!-- </div> -->
+
+
+
+                        </div>
+
+                    </form>
+
+
                 </div>
+
+
             </div>
         </div>
     </div>

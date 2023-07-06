@@ -6,6 +6,7 @@ import { catchError, map } from 'rxjs/operators';
 // import { PaymentResponseModel, ProductModel } from '../../../app/models/product.model';
 import { ServiceUrl } from '../../service-url';
 import { UserRegistrationModel } from '../../models/user.model';
+import { ProductDiscountPayload } from 'src/app/models/product.model';
 
 @Injectable({
   providedIn: 'root'
@@ -28,17 +29,17 @@ export class ProductService {
   }
 
 
-  // PostRegistrationDetailsAsync(userRegModel: UserRegistrationModel): Observable<any> {
+  PostRegistrationDetailsAsync(discountPayload: ProductDiscountPayload): Observable<any> {
 
-  //   // const postData = { userRegModel: userRegModel};
+    // const postData = { userRegModel: userRegModel};
 
-  //   const postData = userRegModel;
+    const postData = discountPayload;
 
-  //   var url = `${this.productServiceApi}GetProductDetails`;
+    var url = `${this.productServiceApi}AddDiscountPercent`;
 
-  //   return this.http.get(url, postData, { headers: this.headers }).pipe(
-  //     catchError(this.errorHandler));
-  // }
+    return this.http.post(url, postData, { headers: this.headers }).pipe(
+      catchError(this.errorHandler));
+  }
 
   getProductDetailsAsync(email: string) {
 
