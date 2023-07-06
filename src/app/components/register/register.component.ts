@@ -5,6 +5,7 @@ import { UserRegistrationModel } from '../../models/user.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
 import { UserService } from '../../service/http-services/user.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -16,13 +17,13 @@ export class RegisterComponent implements OnInit {
   registrationForm: FormGroup = new FormGroup({});
   loginForm: FormGroup = new FormGroup({});
   hide: boolean = true;
-  registationStatus: boolean = false;
+  // registationStatus: boolean = false;
 
   constructor(private fBuilder: FormBuilder
     , private dialog: MatDialog
-    // , private userService: UserService
+    , private userService: UserService
+    , private router: Router
   ) {
-    debugger;
     this.LoadRegistrationControls();
     this.LoadLoginControls();
   }
@@ -71,101 +72,91 @@ export class RegisterComponent implements OnInit {
     registrationDetails.Name = this.registrationForm.value["Name"];
     registrationDetails.Password = this.registrationForm.value["Password"];
 
-    console.log(this.registrationForm.value);
+    // console.log(this.registrationForm.value);
 
 
     try {
-      // const dialogRefRegistrationInProgress = this.dialog.open(ConfirmDialogComponent, {
-      //   disableClose: true,
-      //   data: {
-      //     message: "Registration in progress...",
-      //     spinnerOn: true,
-      //     confirmButtonText: '',
-      //     buttonText: {
-      //       ok: '',
-      //       cancel: ''
-      //     }
-      //   }
-      // });
+      const dialogRefRegistrationInProgress = this.dialog.open(ConfirmDialogComponent, {
+        disableClose: true,
+        data: {
+          message: "Registration in progress...",
+          spinnerOn: true,
+          confirmButtonText: '',
+          buttonText: {
+            ok: '',
+            cancel: ''
+          }
+        }
+      });
 
-      this.registationStatus = false;
+      // this.registationStatus = false;
 
       debugger;
 
-      // this.userService.PostRegistrationDetailsAsync(registrationDetails).subscribe(s => {
+      this.userService.PostRegistrationDetailsAsync(registrationDetails).subscribe(s => {
 
-      //   let result = s;
-      //   let res: number = result.Data;
-      //   let error = result.Error;
+        let result = s;
+        let res: number = result.data;
+        let error = result.error;
 
-      //   debugger;
-
-      //   //If payment Successful
-      //   if (res > 0 && error != null && error != undefined) {
-
-      //     dialogRefRegistrationInProgress.close();
-
-      //     const dialogRefRegistrationSuccess = this.dialog.open(ConfirmDialogComponent, {
-      //       disableClose: true,
-      //       data: {
-      //         message: "Registration is successful.",
-      //         buttonText: {
-      //           ok: 'Go To Home'
-      //         }
-      //       }
-      //     });
-
-      //     dialogRefRegistrationSuccess.afterClosed().subscribe((confirmed: boolean) => {
-      //       if (confirmed) {
-      //         const a = document.createElement('a');
-      //         a.click();
-      //         a.remove();
-
-      //       }
-      //     });
+        debugger;
 
 
+        dialogRefRegistrationInProgress.close();  //Closing the loader component
 
-      //   }
-      //   else {
+        //****************************************************************************/
+        //If registration successful
+        //****************************************************************************/
+        if (res == 0 && (error == null || error == undefined)) {
 
-      //     dialogRefRegistrationInProgress.close();
+          const dialogRefRegistrationSuccess = this.dialog.open(ConfirmDialogComponent, {
+            disableClose: true,
+            data: {
+              message: "Registration is successful.",
+              buttonText: {
+                ok: 'Login with credentials'
+              }
+            }
+          });
 
-      //     const dialogRefRegistrationIssue = this.dialog.open(ConfirmDialogComponent, {
-      //       disableClose: true,
-      //       data: {
-      //         message: "Issue in payment. " + error,
-      //         buttonText: {
-      //           ok: 'Go To Home',
-      //           cancel: '',
-      //           Other: ''
-      //         }
-      //       }
-      //     });
+          dialogRefRegistrationSuccess.afterClosed().subscribe((confirmed: boolean) => {
+            if (confirmed) {
+              const a = document.createElement('a');
+              a.click();
+              a.remove();
 
-      //     dialogRefRegistrationIssue.afterClosed().subscribe((confirmed: any) => {
+              // this.ProceedToHomePage();
+            }
+          });
+        }
+        //****************************************************************************/
+        //If registration issue
+        //****************************************************************************/
+        else {
 
-      //       if (confirmed == true) {
-      //         const a = document.createElement('a');
-      //         a.click();
-      //         a.remove();
-      //       }
-      //       else if (confirmed == "OtherButtonClose") {
-      //         // const a = document.createElement('a');
-      //         // a.click();
-      //         // a.remove();
-      //       }
-      //       else {
-      //         // this.MakePayment(); //Recursive
-      //       }
-      //     });
+          const dialogRefRegistrationIssue = this.dialog.open(ConfirmDialogComponent, {
+            disableClose: true,
+            data: {
+              message: "Issue in registration. " + error.errorMessage,
+              buttonText: {
+                ok: 'Modify details',
+                cancel: '',
+                Other: ''
+              }
+            }
+          });
 
+          dialogRefRegistrationIssue.afterClosed().subscribe((confirmed: any) => {
 
-      //   }
+            if (confirmed) {
+              const a = document.createElement('a');
+              a.click();
+              a.remove();
+            }
+          });
+        }
 
-
-
-      // });
+      });
 
 
 
@@ -181,6 +172,92 @@ export class RegisterComponent implements OnInit {
 
   }
 
+
+  onLoginSubmit() {
+
+    debugger;
+
+    let loginDetails = {} as UserRegistrationModel;
+    loginDetails.Email = this.loginForm.value["Email"];
+    loginDetails.Name = ''; //this.loginForm.value["Name"];
+    loginDetails.Password = this.loginForm.value["Password"];
+
+    // console.log(this.loginForm.value);
+
+    try {
+      const dialogRefLoginInProgress = this.dialog.open(ConfirmDialogComponent, {
+        disableClose: true,
+        data: {
+          message: "Login in progress...",
+          spinnerOn: true,
+          confirmButtonText: '',
+          buttonText: {
+            ok: '',
+            cancel: ''
+          }
+        }
+      });
+
+      // this.registationStatus = false;
+
+      debugger;
+
+      this.userService.PostLoginDetailsAsync(loginDetails).subscribe(s => {
+
+        let result = s;
+        let res: string = result.data;
+        let error = result.error;
+
+        debugger;
+
+
+        dialogRefLoginInProgress.close();  //Closing the loader component
+
+        //****************************************************************************/
+        //If login successful
+        //****************************************************************************/
+        if (res != '' && (error == null || error == undefined)) {
+
+          //Go To Dashboard
+          this.ProceedToLoginDashboard();
+
+        }
+        //****************************************************************************/
+        //If registration issue
+        //****************************************************************************/
+        else {
+
+          const dialogRefLoginIssue = this.dialog.open(ConfirmDialogComponent, {
+            disableClose: true,
+            data: {
+              message: "Issue in login. " + error.errorMessage,
+              buttonText: {
+                ok: 'Modify details',
+                cancel: '',
+                Other: ''
+              }
+            }
+          });
+
+          dialogRefLoginIssue.afterClosed().subscribe((confirmed: any) => {
+
+            if (confirmed) {
+              const a = document.createElement('a');
+              a.click();
+              a.remove();
+            }
+          });
+        }
+
+      });
+
+
+
+    } catch (ex) {
+
+    }
+  }
+
   ResetRegistrationForm() {
     this.registrationForm.reset();
   }
@@ -192,5 +269,13 @@ export class RegisterComponent implements OnInit {
   public checkErrorLogin = (controlName: string, errorName: string) => {
     return this.loginForm.controls[controlName].hasError(errorName);
   };
+
+  ProceedToHomePage() {
+    window.location.href = this.router['location']._platformLocation.location.origin;
+  }
+
+  ProceedToLoginDashboard() {
+    window.location.href = '/dashboard';
+  }
 
 }

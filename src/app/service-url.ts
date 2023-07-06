@@ -12,7 +12,6 @@ export class ServiceUrl {
     // paymentService?: string;
 
   constructor() {
-    debugger;
     this.userService = environment.apiUrlMain + "User/";
     // this.subscriptionService = environment.apiUrlMain + "Subscription/";
     // this.paymentService = environment.apiUrlMain + "Payment/";

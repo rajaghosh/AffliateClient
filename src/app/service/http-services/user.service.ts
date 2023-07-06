@@ -16,10 +16,9 @@ export class UserService {
   headers = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(
-              private serviceUrl: ServiceUrl, 
-              private http: HttpClient
-            ) {
-    debugger;
+    private serviceUrl: ServiceUrl,
+    private http: HttpClient
+  ) {
     this.userServiceApi = this.serviceUrl.userService;
   }
 
@@ -29,15 +28,30 @@ export class UserService {
   }
 
 
-  // PostRegistrationDetailsAsync(userRegModel: UserRegistrationModel): Observable<any> {
+  PostRegistrationDetailsAsync(userRegModel: UserRegistrationModel): Observable<any> {
 
-  //   const postData = { userRegModel: userRegModel};
+    // const postData = { userRegModel: userRegModel};
 
-  //   var url = `${this.userServiceApi}InsertNewUserDetail`;
+    const postData = userRegModel;
 
-  //   return this.http.post(url, postData, { headers: this.headers }).pipe(
-  //     catchError(this.errorHandler));
-  // }
+    // console.log(p)
+
+    var url = `${this.userServiceApi}AddNewUser`;
+
+    return this.http.post(url, postData, { headers: this.headers }).pipe(
+      catchError(this.errorHandler));
+  }
+
+
+  PostLoginDetailsAsync(userRegModel: UserRegistrationModel): Observable<any> {
+
+    const postData = userRegModel;
+    var url = `${this.userServiceApi}LoginUser`;
+
+    return this.http.post(url, postData, { headers: this.headers }).pipe(
+      catchError(this.errorHandler));
+  }
+
 
 
 }
